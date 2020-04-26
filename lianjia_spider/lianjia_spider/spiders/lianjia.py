@@ -10,6 +10,7 @@ class LianjiaSpider(scrapy.Spider):
     start_urls = []
     #  爬取城市（广州 东莞 湛江）
     city_region = ['gz', 'dg', 'zhanjiang']
+    # city_region = ['gz']
     # 定义全局，存放城市
     city = '广州'
 
