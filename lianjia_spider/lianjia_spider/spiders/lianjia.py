@@ -11,21 +11,11 @@ class LianjiaSpider(scrapy.Spider):
     #  爬取城市（广州 东莞 湛江）
     city_region = ['gz', 'dg', 'zhanjiang']
     # city_region = ['gz']
-    # 定义全局，存放城市
-    city = '广州'
 
     def start_requests(self):
         # start_urls.append('https://gz.lianjia.com/chengjiao/' + region + '/pg' + str(i) + "ddo41/")
         url_ori = 'https://%s.lianjia.com/chengjiao'
-        global city
         for str_temp in self.city_region:
-            # 改变城市
-            if str_temp == 'gz':
-                city = '广州'
-            elif str_temp == 'dz':
-                city = '东莞'
-            else:
-                city = '湛江'
             url = url_ori % str_temp
             # print("+++++++++++++++++++++")
             # print(url_ori)
@@ -37,10 +27,10 @@ class LianjiaSpider(scrapy.Spider):
         for region in county_region:
             region = str(region).replace("/chengjiao/","")
             # 可修改页数,可能会有没有的
-            for i in range(1, 20):
+            for i in range(1, 25):
                 url_temp = url
                 # https://gz.lianjia.com/chengjiao/huangpugz/pg3ddo41/
-                self.start_urls.append(url_temp + region + 'pg' + str(i) + "ddo41/")
+                # self.start_urls.append(url_temp + region + 'pg' + str(i) + "ddo41/")
                 url_new = url_temp + region + 'pg' + str(i) + "ddo41/"
                 yield scrapy.Request(url=url_new,callback=self.parse)
 
@@ -53,14 +43,19 @@ class LianjiaSpider(scrapy.Spider):
                     yield scrapy.Request(url=href, callback=self.more, dont_filter=True)
 
     def more(self, response):
-        # print("=============================")
-        # print(response.url)
-        global city
+        # 根据url来判断是哪个城市
+        if response.url.find('//gz.') != -1:
+            city = '广州'
+        elif response.url.find('//dg.') != -1:
+            city = '东莞'
+        else:
+            city = '湛江'
         item = LianjiaSpiderItem()
         info1 = ''
         # 地区
         area = response.xpath('//section[1]/div[1]/a[3]/text()').extract()[0]
         item['region'] = city + "-" + area.replace("二手房成交", "")
+        # print(item['region'])
         # 小区名
         community = response.xpath('//title/text()').extract()[0]
         item['community'] = community[:community.find(" ", 1, len(community))]
