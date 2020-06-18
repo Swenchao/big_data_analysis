@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+'''
+Created on 2020年5月20日
+
+@author: 95108
+'''
 
 from peewee import *
 
@@ -11,7 +15,8 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-class house_info(BaseModel):
+
+class locationinfo(BaseModel):
     number = CharField(primary_key=True)  # 设为主键
     region = CharField()
     community = CharField()
@@ -27,7 +32,17 @@ class house_info(BaseModel):
     property_time = CharField()
     elevator = CharField()
     info = TextField()
-    create_time = TextField()
+    metro = BooleanField()
+    park = BooleanField()
+    school = BooleanField()
+    dist_CBD = CharField()
+    urban = CharField()
+    equipment = CharField()
+    
+    lat = CharField()
+    lng = CharField()
+    uid = CharField()
+    
 
 db.connect()
-db.create_tables([house_info], safe=True)
+db.create_tables([locationinfo], safe=True)

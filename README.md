@@ -14,4 +14,10 @@
 	① scrapy crawl lianjia  运行爬虫（数据存储到数据库中）
 	② scrapy crawl lianjia -o info.csv -t csv  运行爬虫（数据存储成csv文件）
 
->待续...
+调用高德api整理数据——梳理房源区位信息（学校、公园、cbd等）
+
+直接运行脚本即可
+
+模型训练预测（这只是其中一个）
+
+直接运行脚本

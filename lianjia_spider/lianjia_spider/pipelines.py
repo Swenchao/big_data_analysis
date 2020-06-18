@@ -16,5 +16,5 @@ class LianjiaSpiderPipeline(object):
                           floor=item['floor'], size=item['size'], orientation=item['orientation'],
                           build_year=item['build_year'], decoration=item['decoration'],
                           property_time=item['property_time'],
-                          elevator=item['elevator'], info=item['info'])
+                          elevator=item['elevator'], info=item['info'], create_time=item['create_time'])
         return item

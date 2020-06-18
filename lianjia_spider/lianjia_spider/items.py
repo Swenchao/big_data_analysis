@@ -26,4 +26,5 @@ class LianjiaSpiderItem(scrapy.Item):
     elevator = scrapy.Field()  # 电梯
     info = scrapy.Field()  # 周边学校
     number = scrapy.Field()  # 链家编号（主键去重）
+    create_time = scrapy.Field()  # 爬取时间
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import datetime
 
 from lianjia_spider.items import LianjiaSpiderItem
 
@@ -27,7 +28,7 @@ class LianjiaSpider(scrapy.Spider):
         for region in county_region:
             region = str(region).replace("/chengjiao/","")
             # 可修改页数,可能会有没有的
-            for i in range(1, 25):
+            for i in range(1, 100):
                 url_temp = url
                 # https://gz.lianjia.com/chengjiao/huangpugz/pg3ddo41/
                 # self.start_urls.append(url_temp + region + 'pg' + str(i) + "ddo41/")
@@ -91,6 +92,10 @@ class LianjiaSpider(scrapy.Spider):
         item['elevator'] = introContent[12].strip()
         # 编号（主键）
         item['number'] = introContent[13].strip()
+        # 爬取时间
+        now_time = datetime.datetime.now()
+        now_time_str = datetime.datetime.strftime(now_time, '%Y-%m-%d %H:%M:%S')
+        item['create_time'] = now_time_str
         # 其他周边等信息
         infos = response.xpath('//div[@class="content"]/text()').extract()
         if len(infos) != 0:
